@@ -1,7 +1,9 @@
 package rules
 
 import (
+    "math"
 	"strconv"
+	"strings"
 )
 
 func PointsForRoundDollar(total string) int {
@@ -63,6 +65,7 @@ func PointsForPurchaseTime14And16(purchaseTime string) int {
 }
 
 func isPurchaseTimeBetween14And16(purchaseTime string) bool {
+    // Assumption: time is always in 24-hour format
     hourString := purchaseTime[0:2]
     hour, err := strconv.Atoi(hourString)
     if !(err == nil) {
@@ -74,4 +77,17 @@ func isPurchaseTimeBetween14And16(purchaseTime string) bool {
 func PointsForItems(items []string) int {
     // TODO: need to update the type of objects in array
     return len(items) / 2
+}
+
+func PointsForItemName(name string, priceString string) float64 {
+    trimmedName := strings.TrimSpace(name);
+    if len(trimmedName)%3 != 0 {
+        return 0;
+    }
+    price, err := strconv.ParseFloat(priceString, 64)
+    if !(err == nil) {
+        return 0
+    }
+    points := price * 0.2
+    return math.Ceil(points)
 }

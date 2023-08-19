@@ -88,3 +88,12 @@ func TestPointsForItems(t *testing.T) {
         t.Fatalf(`Four items should give two points`)
     }
 }
+
+func TestPointsForItemName(t *testing.T) {
+    if PointsForItemName("Emils Cheese Pizza", "12.25") != 3 {
+        t.Fatalf(`18 characters should give 3 points with a 12.25 price`)
+    }
+    if PointsForItemName("   Klarbrunn 12-PK 12 FL OZ  ", "12.00") != 3 {
+        t.Fatalf(`24 characters should give 3 points with a 12.00 price`)
+    }
+}
