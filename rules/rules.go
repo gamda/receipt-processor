@@ -1,7 +1,6 @@
 package rules
 
 import (
-    "math"
 	"strconv"
 )
 
@@ -31,11 +30,11 @@ func isMultipleTwentyFiveCents(total string) bool {
     // Assumption: all `total` variables have a decimal point and two cents digits
     centsString := total[len(total)-2:]
     // Assumption: all totals are valid numbers, cents are valid integers
-    cents, err := strconv.ParseFloat(centsString, 64)
-    if (err == nil) {
-        return math.Mod(cents, 25) == 0
+    cents, err := strconv.Atoi(centsString)
+    if !(err == nil) {
+        return false
     }
-    return false
+    return cents%25 == 0
 }
 
 func PointsForPurchaseDateOdd(purchaseDate string) int {
