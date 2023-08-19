@@ -22,20 +22,20 @@ func TestRoundDollarTrue(t *testing.T) {
 
 func TestTwentyFiveFalse(t *testing.T) {
     test_totals := []string{"11.99", "11.01", "11.24", "11.26", "11.49", "11.51", "11.74", "11.76"}
-    for i, total := range test_totals {
+    for _, total := range test_totals {
         roundDollar := PointsForMultipleTwentyFiveCents(total)
         if roundDollar > 0 {
-            t.Fatalf(`Test %v: %v is not multiple of .25`, i, total)
+            t.Fatalf(`%v is not multiple of .25`, total)
         }
     }
 }
 
 func TestTwentyFiveTrue(t *testing.T) {
     test_totals := []string{"11.00", "11.25", "11.50", "11.75"}
-    for i, total := range test_totals {
+    for _, total := range test_totals {
         roundDollar := PointsForMultipleTwentyFiveCents(total)
         if roundDollar == 0 {
-            t.Fatalf(`Test %v: %v is a multiple of .25`, i, total)
+            t.Fatalf(`%v is a multiple of .25`, total)
         }
     }
 }
@@ -56,20 +56,20 @@ func TestPurchaseDateEven(t *testing.T) {
 
 func TestPurchaseTimeInside14And16(t *testing.T) {
     times := []string{"14:59", "15:37"}
-    for i, time := range times {
+    for time := range times {
         points := PointsForPurchaseTime14And16(time)
         if points == 0 {
-            t.Fatalf(`Test %v: %v is inside 14 and 16`, i, time)
+            t.Fatalf(`%v is inside 14 and 16`, time)
         }
     }
 }
 
 func TestPurchaseTimeOutside14And16(t *testing.T) {
     times := []string{"13:59", "16:01"}
-    for i, time := range times {
+    for _, time := range times {
         points := PointsForPurchaseTime14And16(time)
         if points > 0 {
-            t.Fatalf(`Test %v: %v is outside 14 and 16`, i, time)
+            t.Fatalf(`%v is outside 14 and 16`, time)
         }
     }
 }
@@ -95,5 +95,17 @@ func TestPointsForItemName(t *testing.T) {
     }
     if PointsForItemName("   Klarbrunn 12-PK 12 FL OZ  ", "12.00") != 3 {
         t.Fatalf(`24 characters should give 3 points with a 12.00 price`)
+    }
+}
+
+func TestPointsForRetailerName(t *testing.T) {
+    if PointsForRetailerName("abc123$!#") != 6 {
+        t.Fatalf(`abc123$!# should have 6 points`)
+    }
+    if PointsForRetailerName("Target") != 6 {
+        t.Fatalf(`Target should have 6 points`)
+    }
+    if PointsForRetailerName("M&M Corner Market") != 14 {
+        t.Fatalf(`M&M Corner Market should have 14 points`)
     }
 }

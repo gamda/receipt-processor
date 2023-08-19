@@ -4,6 +4,7 @@ import (
     "math"
 	"strconv"
 	"strings"
+	"unicode"
 )
 
 func PointsForRoundDollar(total string) int {
@@ -90,4 +91,14 @@ func PointsForItemName(name string, priceString string) float64 {
     }
     points := price * 0.2
     return math.Ceil(points)
+}
+
+func PointsForRetailerName(name string) int {
+    points := 0
+    for _, char := range name {
+        if unicode.IsLetter(char) || unicode.IsNumber(char) {
+            points += 1
+        }
+    }
+    return points
 }
