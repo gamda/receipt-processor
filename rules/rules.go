@@ -38,3 +38,20 @@ func isMultipleTwentyFiveCents(total string) bool {
     return false
 }
 
+func PointsForPurchaseDateOdd(purchaseDate string) int {
+    points := 6
+    if isPurchaseDateOdd(purchaseDate) {
+        return points
+    }
+    return 0
+}
+
+func isPurchaseDateOdd(purchaseDate string) bool {
+    dayLastDigitString := purchaseDate[len(purchaseDate)-1:]
+    day, err := strconv.Atoi(dayLastDigitString)
+    if !(err == nil) {
+        return false
+    }
+    return !(day%2 == 0);
+}
+

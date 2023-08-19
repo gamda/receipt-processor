@@ -39,3 +39,17 @@ func TestTwentyFiveTrue(t *testing.T) {
         }
     }
 }
+
+func TestPurchaseDateOdd(t *testing.T) {
+    date := "2023-08-19"
+    if PointsForPurchaseDateOdd(date) == 0 {
+        t.Fatalf(`%v is an odd date and should have points`, date)
+    }
+}
+
+func TestPurchaseDateEven(t *testing.T) {
+    date := "2023-08-18"
+    if PointsForPurchaseDateOdd(date) > 0 {
+        t.Fatalf(`%v is an even date and should NOT have points`, date)
+    }
+}
