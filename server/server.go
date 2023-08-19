@@ -29,7 +29,11 @@ func processReceipt(c *gin.Context) {
 
 func getReceiptPoints(c *gin.Context) {
     id := c.Param("id")
-    points := receiptPoints[id]
+    points, ok := receiptPoints[id]
+    if !ok {
+        c.IndentedJSON(http.StatusNotFound, gin.H{"message": "receipt not found"})
+        return
+    }
     c.IndentedJSON(http.StatusOK, map[string]string{
         "points": strconv.FormatFloat(points, 'f', -1, 64),
     })
