@@ -53,3 +53,23 @@ func TestPurchaseDateEven(t *testing.T) {
         t.Fatalf(`%v is an even date and should NOT have points`, date)
     }
 }
+
+func TestPurchaseTimeInside14And16(t *testing.T) {
+    times := []string{"14:59", "15:37"}
+    for i, time := range times {
+        points := PointsForPurchaseTime14And16(time)
+        if points == 0 {
+            t.Fatalf(`Test %v: %v is inside 14 and 16`, i, time)
+        }
+    }
+}
+
+func TestPurchaseTimeOutside14And16(t *testing.T) {
+    times := []string{"13:59", "16:01"}
+    for i, time := range times {
+        points := PointsForPurchaseTime14And16(time)
+        if points > 0 {
+            t.Fatalf(`Test %v: %v is outside 14 and 16`, i, time)
+        }
+    }
+}

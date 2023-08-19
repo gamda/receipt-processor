@@ -55,3 +55,20 @@ func isPurchaseDateOdd(purchaseDate string) bool {
     return !(day%2 == 0);
 }
 
+func PointsForPurchaseTime14And16(purchaseTime string) int {
+    points := 10
+    if isPurchaseTimeBetween14And16(purchaseTime) {
+        return points
+    }
+    return 0
+}
+
+func isPurchaseTimeBetween14And16(purchaseTime string) bool {
+    hourString := purchaseTime[0:2]
+    hour, err := strconv.Atoi(hourString)
+    if !(err == nil) {
+        return false
+    }
+    return hour >= 14 && hour < 16
+}
+
