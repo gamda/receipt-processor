@@ -5,7 +5,6 @@ import (
 	"strconv"
 	"strings"
 	"unicode"
-	"fmt"
 )
 
 type Item struct {
@@ -22,11 +21,13 @@ type Receipt struct {
 }
 
 func PointsForReceipt(receipt Receipt) float64 {
-    fmt.Println(receipt, receipt.retailer)
     return PointsForRetailerName(receipt.retailer) +
         PointsForRoundDollar(receipt.total) +
         PointsForMultipleTwentyFiveCents(receipt.total) +
-        PointsForItems(receipt.items)
+        PointsForItems(receipt.items) +
+        PointsForItemNames(receipt.items) +
+        PointsForPurchaseDateOdd(receipt.purchaseDate) +
+        PointsForPurchaseTime14And16(receipt.purchaseTime)
 }
 
 func PointsForRoundDollar(total string) float64 {
@@ -62,12 +63,12 @@ func isMultipleTwentyFiveCents(total string) bool {
     return cents%25 == 0
 }
 
-func PointsForPurchaseDateOdd(purchaseDate string) int {
-    points := 6
+func PointsForPurchaseDateOdd(purchaseDate string) float64 {
+    points := 6.0
     if isPurchaseDateOdd(purchaseDate) {
         return points
     }
-    return 0
+    return 0.0
 }
 
 func isPurchaseDateOdd(purchaseDate string) bool {
@@ -79,12 +80,12 @@ func isPurchaseDateOdd(purchaseDate string) bool {
     return !(day%2 == 0);
 }
 
-func PointsForPurchaseTime14And16(purchaseTime string) int {
-    points := 10
+func PointsForPurchaseTime14And16(purchaseTime string) float64 {
+    points := 10.0
     if isPurchaseTimeBetween14And16(purchaseTime) {
         return points
     }
-    return 0
+    return 0.0
 }
 
 func isPurchaseTimeBetween14And16(purchaseTime string) bool {
@@ -99,6 +100,14 @@ func isPurchaseTimeBetween14And16(purchaseTime string) bool {
 
 func PointsForItems(items []Item) float64 {
     return float64(len(items) / 2) * 5
+}
+
+func PointsForItemNames(items []Item) float64 {
+    total := 0.0
+    for _, item := range items {
+        total += PointsForItemName(item.shortDescription, item.price)
+    }
+    return total
 }
 
 func PointsForItemName(name string, priceString string) float64 {

@@ -2,11 +2,10 @@ package rules
 
 import (
     "testing"
-    "fmt"
 )
 
 func TestPointsForReceipt(t *testing.T) {
-    receipt := Receipt{
+    receipt1 := Receipt{
         retailer: "Target",
         purchaseDate: "2022-01-01",
         purchaseTime: "13:01",
@@ -19,7 +18,24 @@ func TestPointsForReceipt(t *testing.T) {
             Item{"   Klarbrunn 12-PK 12 FL OZ  ", "12.00"},
         },
     }
-    fmt.Println(PointsForReceipt(receipt))
+    if PointsForReceipt(receipt1) != 28 {
+        t.Fatalf(`Target receipt should have 28 points`)
+    }
+    receipt2 := Receipt{
+        retailer: "M&M Corner Market",
+        purchaseDate: "2022-03-20",
+        purchaseTime: "14:33",
+        total: "9.00",
+        items: []Item{
+            Item{"Gatorade", "2.25"},
+            Item{"Gatorade", "2.25"},
+            Item{"Gatorade", "2.25"},
+            Item{"Gatorade", "2.25"},
+        },
+    }
+    if PointsForReceipt(receipt2) != 109 {
+        t.Fatalf(`M&M receipt should have 109 points`)
+    }
 }
 
 func TestRoundDollarFalse(t *testing.T) {
@@ -120,6 +136,19 @@ func TestPointsForItemName(t *testing.T) {
     }
     if PointsForItemName("   Klarbrunn 12-PK 12 FL OZ  ", "12.00") != 3 {
         t.Fatalf(`24 characters should give 3 points with a 12.00 price`)
+    }
+}
+
+func TestPointsForItemNames(t *testing.T) {
+    items := []Item{
+        Item{"Mountain Dew 12PK", "6.49"},
+        Item{"Emils Cheese Pizza", "12.25"},
+        Item{"Knorr Creamy Chicken", "1.26"},
+        Item{"Doritos Nacho Cheese", "3.35"},
+        Item{"   Klarbrunn 12-PK 12 FL OZ  ", "12.00"},
+    }
+    if PointsForItemNames(items) != 6 {
+        t.Fatalf(`These items should give 6 points`)
     }
 }
 
