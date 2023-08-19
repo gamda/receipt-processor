@@ -73,3 +73,18 @@ func TestPurchaseTimeOutside14And16(t *testing.T) {
         }
     }
 }
+
+func TestPointsForItems(t *testing.T) {
+    if PointsForItems([]string{"a"}) != 0 {
+        t.Fatalf(`One item should give zero points`)
+    }
+    if PointsForItems([]string{"a", "b"}) != 1 {
+        t.Fatalf(`Two items should give one point`)
+    }
+    if PointsForItems([]string{"a", "b", "c"}) != 1 {
+        t.Fatalf(`Three items should give one point`)
+    }
+    if PointsForItems([]string{"a", "b", "c", "d"}) != 2 {
+        t.Fatalf(`Four items should give two points`)
+    }
+}

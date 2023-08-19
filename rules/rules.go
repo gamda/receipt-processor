@@ -72,3 +72,7 @@ func isPurchaseTimeBetween14And16(purchaseTime string) bool {
     return hour >= 14 && hour < 16
 }
 
+func PointsForItems(items []string) int {
+    // TODO: need to update the type of objects in array
+    return len(items) / 2
+}
