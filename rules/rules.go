@@ -8,26 +8,26 @@ import (
 )
 
 type Item struct {
-    shortDescription string
-    price string
+    ShortDescription string `json:"shortDescription"`
+    Price string `json:"price"`
 }
 
 type Receipt struct {
-    retailer string
-    purchaseDate string
-    purchaseTime string
-    total string
-    items []Item
+    Retailer string `json:"retailer"`
+    PurchaseDate string `json:"purchaseDate"`
+    PurchaseTime string `json:"purchaseTime"`
+    Total string `json:"total"`
+    Items []Item `json:"items"`
 }
 
 func PointsForReceipt(receipt Receipt) float64 {
-    return PointsForRetailerName(receipt.retailer) +
-        PointsForRoundDollar(receipt.total) +
-        PointsForMultipleTwentyFiveCents(receipt.total) +
-        PointsForItems(receipt.items) +
-        PointsForItemNames(receipt.items) +
-        PointsForPurchaseDateOdd(receipt.purchaseDate) +
-        PointsForPurchaseTime14And16(receipt.purchaseTime)
+    return PointsForRetailerName(receipt.Retailer) +
+        PointsForRoundDollar(receipt.Total) +
+        PointsForMultipleTwentyFiveCents(receipt.Total) +
+        PointsForItems(receipt.Items) +
+        PointsForItemNames(receipt.Items) +
+        PointsForPurchaseDateOdd(receipt.PurchaseDate) +
+        PointsForPurchaseTime14And16(receipt.PurchaseTime)
 }
 
 func PointsForRoundDollar(total string) float64 {
@@ -105,7 +105,7 @@ func PointsForItems(items []Item) float64 {
 func PointsForItemNames(items []Item) float64 {
     total := 0.0
     for _, item := range items {
-        total += PointsForItemName(item.shortDescription, item.price)
+        total += PointsForItemName(item.ShortDescription, item.Price)
     }
     return total
 }
