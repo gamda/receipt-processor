@@ -5,14 +5,36 @@ import (
 	"strconv"
 	"strings"
 	"unicode"
+	"fmt"
 )
 
-func PointsForRoundDollar(total string) int {
-    points := 50
+type Item struct {
+    shortDescription string
+    price string
+}
+
+type Receipt struct {
+    retailer string
+    purchaseDate string
+    purchaseTime string
+    total string
+    items []Item
+}
+
+func PointsForReceipt(receipt Receipt) float64 {
+    fmt.Println(receipt, receipt.retailer)
+    return PointsForRetailerName(receipt.retailer) +
+        PointsForRoundDollar(receipt.total) +
+        PointsForMultipleTwentyFiveCents(receipt.total) +
+        PointsForItems(receipt.items)
+}
+
+func PointsForRoundDollar(total string) float64 {
+    points := 50.0
     if isRoundDollar(total) {
         return points
     }
-    return 0
+    return 0.0
 }
 
 func isRoundDollar(total string) bool {
@@ -21,12 +43,12 @@ func isRoundDollar(total string) bool {
     return cents == "00"
 }
 
-func PointsForMultipleTwentyFiveCents(total string) int {
-    points := 25
+func PointsForMultipleTwentyFiveCents(total string) float64 {
+    points := 25.0
     if isMultipleTwentyFiveCents(total) {
         return points
     }
-    return 0
+    return 0.0
 }
 
 func isMultipleTwentyFiveCents(total string) bool {
@@ -75,9 +97,8 @@ func isPurchaseTimeBetween14And16(purchaseTime string) bool {
     return hour >= 14 && hour < 16
 }
 
-func PointsForItems(items []string) int {
-    // TODO: need to update the type of objects in array
-    return len(items) / 2
+func PointsForItems(items []Item) float64 {
+    return float64(len(items) / 2) * 5
 }
 
 func PointsForItemName(name string, priceString string) float64 {
@@ -93,8 +114,8 @@ func PointsForItemName(name string, priceString string) float64 {
     return math.Ceil(points)
 }
 
-func PointsForRetailerName(name string) int {
-    points := 0
+func PointsForRetailerName(name string) float64 {
+    points := 0.0
     for _, char := range name {
         if unicode.IsLetter(char) || unicode.IsNumber(char) {
             points += 1

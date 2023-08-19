@@ -2,7 +2,25 @@ package rules
 
 import (
     "testing"
+    "fmt"
 )
+
+func TestPointsForReceipt(t *testing.T) {
+    receipt := Receipt{
+        retailer: "Target",
+        purchaseDate: "2022-01-01",
+        purchaseTime: "13:01",
+        total: "35.35",
+        items: []Item{
+            Item{"Mountain Dew 12PK", "6.49"},
+            Item{"Emils Cheese Pizza", "12.25"},
+            Item{"Knorr Creamy Chicken", "1.26"},
+            Item{"Doritos Nacho Cheese", "3.35"},
+            Item{"   Klarbrunn 12-PK 12 FL OZ  ", "12.00"},
+        },
+    }
+    fmt.Println(PointsForReceipt(receipt))
+}
 
 func TestRoundDollarFalse(t *testing.T) {
     total := "11.23"
@@ -56,7 +74,7 @@ func TestPurchaseDateEven(t *testing.T) {
 
 func TestPurchaseTimeInside14And16(t *testing.T) {
     times := []string{"14:59", "15:37"}
-    for time := range times {
+    for _, time := range times {
         points := PointsForPurchaseTime14And16(time)
         if points == 0 {
             t.Fatalf(`%v is inside 14 and 16`, time)
@@ -75,17 +93,24 @@ func TestPurchaseTimeOutside14And16(t *testing.T) {
 }
 
 func TestPointsForItems(t *testing.T) {
-    if PointsForItems([]string{"a"}) != 0 {
+    items := []Item{
+        Item{"Mountain Dew 12PK", "6.49"},
+        Item{"Emils Cheese Pizza", "12.25"},
+        Item{"Knorr Creamy Chicken", "1.26"},
+        Item{"Doritos Nacho Cheese", "3.35"},
+        Item{"   Klarbrunn 12-PK 12 FL OZ  ", "12.00"},
+    }
+    if PointsForItems(items[:1]) != 0 {
         t.Fatalf(`One item should give zero points`)
     }
-    if PointsForItems([]string{"a", "b"}) != 1 {
-        t.Fatalf(`Two items should give one point`)
+    if PointsForItems(items[:2]) != 5 {
+        t.Fatalf(`Two items should give five points`)
     }
-    if PointsForItems([]string{"a", "b", "c"}) != 1 {
-        t.Fatalf(`Three items should give one point`)
+    if PointsForItems(items[:3]) != 5 {
+        t.Fatalf(`Three items should give five points`)
     }
-    if PointsForItems([]string{"a", "b", "c", "d"}) != 2 {
-        t.Fatalf(`Four items should give two points`)
+    if PointsForItems(items[:4]) != 10 {
+        t.Fatalf(`Four items should give ten points`)
     }
 }
 
