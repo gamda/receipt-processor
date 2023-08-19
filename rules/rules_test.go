@@ -6,11 +6,11 @@ import (
 
 func TestPointsForReceipt(t *testing.T) {
     receipt1 := Receipt{
-        retailer: "Target",
-        purchaseDate: "2022-01-01",
-        purchaseTime: "13:01",
-        total: "35.35",
-        items: []Item{
+        Retailer: "Target",
+        PurchaseDate: "2022-01-01",
+        PurchaseTime: "13:01",
+        Total: "35.35",
+        Items: []Item{
             Item{"Mountain Dew 12PK", "6.49"},
             Item{"Emils Cheese Pizza", "12.25"},
             Item{"Knorr Creamy Chicken", "1.26"},
@@ -22,11 +22,11 @@ func TestPointsForReceipt(t *testing.T) {
         t.Fatalf(`Target receipt should have 28 points`)
     }
     receipt2 := Receipt{
-        retailer: "M&M Corner Market",
-        purchaseDate: "2022-03-20",
-        purchaseTime: "14:33",
-        total: "9.00",
-        items: []Item{
+        Retailer: "M&M Corner Market",
+        PurchaseDate: "2022-03-20",
+        PurchaseTime: "14:33",
+        Total: "9.00",
+        Items: []Item{
             Item{"Gatorade", "2.25"},
             Item{"Gatorade", "2.25"},
             Item{"Gatorade", "2.25"},
